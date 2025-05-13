@@ -14,7 +14,6 @@ namespace Lab_8
         public string Input => _input;
 
         public abstract void Review();
-        public abstract object Output { get; }
 
         public override string ToString()
         {

@@ -33,7 +33,7 @@ namespace Lab_8
             _output = result.Trim();
         }
 
-        public override object Output => _output;
+        public object Output => _output;
 
         public override string ToString() => _output;
     }

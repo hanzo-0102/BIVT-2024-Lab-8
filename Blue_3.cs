@@ -46,7 +46,7 @@ namespace Lab_8
             Array.Sort(_output, (x, y) => y.Item2.CompareTo(x.Item2));
         }
 
-        public override object Output => _output;
+        public object Output => _output;
 
         public override string ToString()
         {
