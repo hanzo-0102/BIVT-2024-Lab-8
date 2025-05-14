@@ -15,9 +15,6 @@ namespace Lab_8
 
         public abstract void Review();
 
-        public override string ToString()
-        {
-            return Output.ToString();
-        }
+        public abstract string ToString();
     }
 }

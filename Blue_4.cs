@@ -29,7 +29,7 @@ namespace Lab_8
             }
         }
 
-        public object Output => _output;
+        public int Output => _output;
 
         public override string ToString() => _output.ToString();
     }

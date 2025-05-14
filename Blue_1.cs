@@ -44,7 +44,7 @@ namespace Lab_8
             _output = lines;
         }
 
-        public object Output => _output;
+        public string[] Output => _output;
 
         public override string ToString()
         {
