@@ -4,7 +4,7 @@ namespace Lab_8
 {
     public abstract class Blue
     {
-        private readonly string _input;
+        protected readonly string _input;
 
         protected Blue(string input)
         {

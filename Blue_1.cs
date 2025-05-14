@@ -1,8 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Lab_8
 {
@@ -10,45 +6,88 @@ namespace Lab_8
     {
         private string[] _output;
 
-        public Blue_1(string input) : base(input)
+        public string[] Output
         {
-            Review();
+            get
+            {
+                if (_output == null) return null;
+                string[] copy = new string[_output.Length];
+                Array.Copy(_output, copy, _output.Length);
+                return copy;
+            }
         }
+
+        public Blue_1(string input) : base(input) { }
 
         public override void Review()
         {
-            string[] words = Input.Split(new[] { ' ' }, StringSplitOptions.RemoveEmptyEntries);
-            string currentLine = string.Empty;
+            if (string.IsNullOrWhiteSpace(Input))
+            {
+                _output = null;
+                return;
+            }
+
+            string[] words = SplitInputIntoWords(Input);
+            _output = FormatWordsIntoLines(words);
+        }
+
+        private string[] SplitInputIntoWords(string input)
+        {
+            char[] delimiters = new char[] { ' ' };
+            return input.Split(delimiters, StringSplitOptions.RemoveEmptyEntries);
+        }
+
+        private string[] FormatWordsIntoLines(string[] words)
+        {
+            string curline = string.Empty;
             string[] lines = new string[words.Length];
             int lineCount = 0;
 
-            foreach (string word in words)
+            foreach (var word in words)
             {
-                if (currentLine.Length + word.Length + 1 > 50)
+                if (word.Length > 50)
                 {
-                    lines[lineCount++] = currentLine.Trim();
-                    currentLine = word + " ";
+                    if (!string.IsNullOrEmpty(curline))
+                    {
+                        lines[lineCount++] = curline;
+                        curline = string.Empty;
+                    }
+                    lines[lineCount++] = word;
                 }
                 else
                 {
-                    currentLine += word + " ";
+                    String spacer = String.Empty;
+                    if (curline.Length > 0)
+                    {
+                        spacer = " ";
+                    }
+                    if (curline.Length + spacer.Length + word.Length <= 50)
+                    {
+                        curline += spacer + word;
+                    }
+                    else
+                    {
+                        if (!string.IsNullOrEmpty(curline))
+                        {
+                            lines[lineCount++] = curline;
+                        }
+                        curline = word;
+                    }
                 }
             }
 
-            if (!string.IsNullOrEmpty(currentLine))
+            if (!string.IsNullOrEmpty(curline))
             {
-                lines[lineCount++] = currentLine.Trim();
+                lines[lineCount++] = curline;
             }
 
             Array.Resize(ref lines, lineCount);
-            _output = lines;
+            return lines;
         }
-
-        public string[] Output => _output;
 
         public override string ToString()
         {
-            return string.Join("\n", _output);
+            return _output == null ? string.Empty : string.Join(Environment.NewLine, _output);
         }
     }
 }
