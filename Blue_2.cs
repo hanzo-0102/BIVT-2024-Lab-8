@@ -17,7 +17,6 @@ namespace Lab_8
         {
             _sequence = sequence;
             _allowed_characters = ".!?,:\\\";–()[]{}/";
-            Review();
         }
 
         public override void Review()
@@ -32,6 +31,7 @@ namespace Lab_8
                     result += word + " ";
                 } else if (_allowed_characters.Contains(word[word.Length - 1]))
                 {
+                    result = result.Remove(result.Length - 1);
                     result += word[word.Length - 1] + " ";
                 }
             }

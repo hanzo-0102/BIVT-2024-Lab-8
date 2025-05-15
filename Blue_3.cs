@@ -12,23 +12,22 @@ namespace Lab_8
 
         public Blue_3(string input) : base(input)
         {
-            Review();
         }
 
         public override void Review()
         {
             string[] words = Input.Split(new[] { ' ', '.', '!', '?', ',', ':', '\"', ';', '–', '(', ')', '[', ']', '{', '}', '/' }, StringSplitOptions.RemoveEmptyEntries);
             int totalWords = words.Length;
-            int[] letterCounts = new int[26];
+            int[] letterCounts = new int[32];
 
             foreach (string word in words)
             {
                 if (word.Length > 0)
                 {
                     char firstChar = char.ToLower(word[0]);
-                    if (firstChar >= 'a' && firstChar <= 'z')
+                    if (firstChar >= 'а' && firstChar <= 'ё')
                     {
-                        letterCounts[firstChar - 'a']++;
+                        letterCounts[firstChar - 'а']++;
                     }
                 }
             }
@@ -39,7 +38,7 @@ namespace Lab_8
                 if (totalWords > 0)
                 {
                     double percentage = (double)letterCounts[i] / totalWords * 100;
-                    _output[i] = ((char)(i + 'a'), Math.Round(percentage, 4));
+                    _output[i] = ((char)(i + 'а'), Math.Round(percentage, 4));
                 }
             }
 
@@ -50,6 +49,7 @@ namespace Lab_8
 
         public override string ToString()
         {
+            if (_output is null) return String.Empty;
             string result = string.Empty;
             foreach (var item in _output)
             {

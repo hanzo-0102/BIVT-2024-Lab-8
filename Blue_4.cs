@@ -12,7 +12,6 @@ namespace Lab_8
 
         public Blue_4(string input) : base(input)
         {
-            Review();
         }
 
         public override void Review()
