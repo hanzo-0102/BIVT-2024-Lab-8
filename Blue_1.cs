@@ -1,93 +1,99 @@
-﻿using System;
+﻿using Lab_8;
+using System;
 
 namespace Lab_8
 {
     public class Blue_1 : Blue
     {
-        private string[] _output;
-
+        private string[] output_;
         public string[] Output
         {
             get
             {
-                if (_output == null) return null;
-                string[] copy = new string[_output.Length];
-                Array.Copy(_output, copy, _output.Length);
-                return copy;
+                if (output_ == null) return null;
+                string[] answer = new string[output_.Length];
+                for (int i = 0; i != output_.Length; i++)
+                {
+                    answer[i] = output_[i];
+                }
+                return answer;
             }
         }
 
-        public Blue_1(string input) : base(input) { }
+
+        public Blue_1(string input) : base(input)
+        {
+            output_ = null;
+        }
+
 
         public override void Review()
         {
-            if (string.IsNullOrWhiteSpace(Input))
+            if (string.IsNullOrEmpty(Input))
             {
-                _output = null;
+                output_ = null;
                 return;
             }
 
-            string[] words = SplitInputIntoWords(Input);
-            _output = FormatWordsIntoLines(words);
-        }
+            string[] Splited = Input.Split(' ');
+            string[] result = new string[0];
+            string strings = "";
+            
+            int i = 0;
 
-        private string[] SplitInputIntoWords(string input)
-        {
-            char[] delimiters = new char[] { ' ' };
-            return input.Split(delimiters, StringSplitOptions.RemoveEmptyEntries);
-        }
-
-        private string[] FormatWordsIntoLines(string[] words)
-        {
-            string curline = string.Empty;
-            string[] lines = new string[words.Length];
-            int lineCount = 0;
-
-            foreach (var word in words)
+            while (i < Splited.Length)
             {
-                if (word.Length > 50)
+                string cur = string.Empty;
+                if (strings.Length > 0)
                 {
-                    if (!string.IsNullOrEmpty(curline))
-                    {
-                        lines[lineCount++] = curline;
-                        curline = string.Empty;
-                    }
-                    lines[lineCount++] = word;
+                    cur = strings + " " + Splited[i];
                 }
                 else
                 {
-                    String spacer = String.Empty;
-                    if (curline.Length > 0)
-                    {
-                        spacer = " ";
-                    }
-                    if (curline.Length + spacer.Length + word.Length <= 50)
-                    {
-                        curline += spacer + word;
-                    }
-                    else
-                    {
-                        if (!string.IsNullOrEmpty(curline))
-                        {
-                            lines[lineCount++] = curline;
-                        }
-                        curline = word;
-                    }
+                    cur = Splited[i];
                 }
-            }
+                if (cur.Length > 50)
+                {
 
-            if (!string.IsNullOrEmpty(curline))
+                    string[] newresult = new string[result.Length + 1];
+                    for (int j = 0; j != result.Length; j++)
+                    {
+                        newresult[j] = result[j];
+                    }
+                    newresult[result.Length] = strings;
+                    result = newresult;
+                    strings = "";
+                }
+                else
+                {
+                    strings = cur;
+                    i++;
+                }
+
+            }
+            if (strings.Length > 0)
             {
-                lines[lineCount++] = curline;
+                string[] newresult = new string[result.Length + 1];
+                for (int j = 0; j != result.Length; j++)
+                {
+                    newresult[j] = result[j];
+                }
+                newresult[result.Length] = strings;
+                result = newresult;
+                strings = "";
             }
-
-            Array.Resize(ref lines, lineCount);
-            return lines;
+            output_ = result;
         }
-
         public override string ToString()
         {
-            return _output == null ? string.Empty : string.Join(Environment.NewLine, _output);
+            if (String.IsNullOrEmpty(this.Input) || output_ == null)
+            {
+                return null;
+            }
+            else
+            {
+                return string.Join(Environment.NewLine, output_);
+            }
         }
     }
 }

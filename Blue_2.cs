@@ -1,54 +1,53 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Collections.Specialized;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using Lab_8;
+using System;
+using System.Diagnostics.CodeAnalysis;
 
 namespace Lab_8
 {
+
     public class Blue_2 : Blue
     {
-        private readonly string _sequence;
-        private readonly string _allowed_characters;
-        private string _output;
+        private string _erase;
+        private string output_;
+        public string Output => output_;
 
-        public Blue_2(string input, string sequence) : base(input)
+        public Blue_2(string input, string to_delete) : base(input)
         {
-            _sequence = sequence;
-            _allowed_characters = ".!?,:\\\";–()[]{}/";
+            _erase = to_delete;
+            output_ = null;
         }
 
         public override void Review()
         {
-            string[] words = Input.Split(new[] { ' ' }, StringSplitOptions.RemoveEmptyEntries);
-            string result = string.Empty;
-
-            foreach (string word in words)
+            if (string.IsNullOrEmpty(Input) || string.IsNullOrEmpty(_erase))
             {
-                if (!word.Contains(_sequence, StringComparison.OrdinalIgnoreCase))
+                output_ = null;
+                return;
+            }
+            string ans = "";
+            string[] splited = Input.Split(' ');
+            string temp = Input;
+            foreach (string word in splited)
+            {
+                if (word.Contains(_erase))
                 {
-                    result += word + " ";
-                } else if (_allowed_characters.Contains(word[word.Length - 1]))
-                {
-                    result = result.Remove(result.Length - 1);
-                    result += word[word.Length - 1] + " ";
+                    if (word.Any(sym => (sym == '.' || sym == ',' || sym == ';')))
+                    {
+                        char[] charki = word.ToCharArray();
+                        ans = word.Contains("\"") ? temp.Replace(word + " ", "\"\"" + charki[charki.Length - 1] + " ") : temp.Replace(" " + word, "" + charki[charki.Length - 1]);
+                        temp = ans;
+                    }
+                    else
+                    {
+                        ans = temp.Replace(word + " ", "");
+                        temp = ans;
+                    }
                 }
             }
-
-            _output = result.Trim();
+            temp = temp.Replace("  ", "");
+            output_ = temp.Trim();
         }
 
-        public string Output => _output;
-
-        public override string ToString() {
-            if (Output != null)
-            {
-                return Output;
-            } else
-            {
-                return string.Empty;
-            }
-        }
+        public override string ToString() => string.IsNullOrEmpty(output_) ? string.Empty : output_;
     }
 }
