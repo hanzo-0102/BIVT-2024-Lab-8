@@ -14,7 +14,5 @@ namespace Lab_8
         public string Input => _input;
 
         public abstract void Review();
-
-        public abstract string ToString();
     }
 }
