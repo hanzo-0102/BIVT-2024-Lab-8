@@ -1,4 +1,4 @@
-﻿using Lab_8;
+using Lab_8;
 using System;
 
 namespace Lab_8
@@ -76,7 +76,7 @@ namespace Lab_8
 
         public override string ToString()
         {
-            return output_ == null ? null : string.Join(Environment.NewLine, output_.Select(cortege => $"{cortege.Item1} - {cortege.Item2}:F4"));
+            return output_ == null ? null : string.Join(Environment.NewLine, output_.Select(cortege => $"{cortege.Item1} - {cortege.Item2:F4}"));
         }
     }
 }
